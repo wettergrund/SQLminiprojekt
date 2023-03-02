@@ -68,9 +68,9 @@ namespace SQLminiprojekt
         static void TimeReporting()
         {
             List<UserModel> users = DBconnection.GetAllUsers();
-            string[] allUsers = ConertToArray(users);
+            string[] allUsers = Tools.ConertToArray(users);
             List<ProjectModel> projects = DBconnection.GetAllProjects();
-            string[] allProjects = ConertToArray(projects);
+            string[] allProjects = Tools.ConertToArray(projects);
 
             Console.WriteLine("Välj vilken användare du ska rapportera på");
             int selectedUser = Menu(allUsers);
@@ -109,8 +109,6 @@ namespace SQLminiprojekt
                     case 1:
                         User.Remove();
                         break;
-                   
-
                 }
             }
 
@@ -124,37 +122,6 @@ namespace SQLminiprojekt
                 "Ta bort projekt " // --> user.remove()
             };
 
-        }
-
-
-        static string[] ConertToArray(List<UserModel> input)
-        {
-
-            int numberOfItems = input.Count;
-
-            string[] strings = new string[numberOfItems];
-
-            for (int i = 0; i < numberOfItems; i++)
-            {
-                strings[i] = input[i].Person_Name;
-            }
-
-            return strings;
-        }
-
-        static string[] ConertToArray(List<ProjectModel> input)
-        {
-
-            int numberOfItems = input.Count;
-
-            string[] strings = new string[numberOfItems];
-
-            for (int i = 0; i < numberOfItems; i++)
-            {
-                strings[i] = input[i].Project_Name;
-            }
-
-            return strings;
         }
 
 

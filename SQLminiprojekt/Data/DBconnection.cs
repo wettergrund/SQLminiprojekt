@@ -34,7 +34,16 @@ namespace SQLminiprojekt.Data
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<UserModel>($"INSERT INTO jwe_person (person_name) VALUES ('{newUserName}');", new DynamicParameters());
+                var output = cnn.Query<UserModel>($"INSERT INTO jwe_person (person_name) VALUES ('{newUserName}')", new DynamicParameters());
+            }
+        }
+
+
+        public static void RemoveUser(int toDelete)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<UserModel>($"DELETE FROM jwe_person WHERE id = {toDelete}", new DynamicParameters());
             }
         }
 

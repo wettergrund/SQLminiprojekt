@@ -36,9 +36,13 @@ namespace SQLminiprojekt
             string[] listOfUsers = Tools.ConertToArray(users);
 
             int userToRemove = Tools.Menu(listOfUsers);
+            
+            // Get ID of user
             int idOfUser = DBconnection.GetUserID(listOfUsers[userToRemove]);
             Console.WriteLine($"Id är: {idOfUser}");
             Console.ReadLine();
+            DBconnection.RemoveUser(idOfUser);
+
 
         }
     }
