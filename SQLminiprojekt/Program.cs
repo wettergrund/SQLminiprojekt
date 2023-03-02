@@ -162,30 +162,5 @@ namespace SQLminiprojekt
             }
         }
 
-
-        static int Menu(string[] input)
-        {
-            Console.Clear();
-
-            int stringLength = input.Length;
-
-            for (int i = 0; i < stringLength; i++)
-            {
-                Console.WriteLine($"[{i + 1}] {input[i]}");
-            }
-            Console.WriteLine($"[{stringLength + 1}] Gå tillbaka");
-
-            Console.Write("Välj en siffra: ");
-            int selectedItem = int.Parse(Console.ReadLine());
-            if(selectedItem == stringLength + 1) {
-
-                return -1;
-
-            }
-
-            selectedItem--;
-          
-            return selectedItem;
-        }
     }
 }
