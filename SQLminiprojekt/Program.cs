@@ -1,5 +1,7 @@
 ﻿global using SQLminiprojekt.Models;
 global using SQLminiprojekt.Data;
+global using static SQLminiprojekt.Tools;
+
 
 namespace SQLminiprojekt
 {
@@ -8,7 +10,7 @@ namespace SQLminiprojekt
         static void Main(string[] args)
         {
             Run();
-
+            
             // Test connection
 
             //List<UserModel> users = DBconnection.GetAllUsers();
@@ -39,12 +41,13 @@ namespace SQLminiprojekt
                 "Ändra projekt"
             };
 
-            int selectedItem = Menu(mainMenu);
 
             bool runProgram = true;
 
             while (runProgram)
             {
+
+                int selectedItem = Tools.Menu(mainMenu);
                 switch (selectedItem)
                 {
                     case -1:
@@ -61,6 +64,7 @@ namespace SQLminiprojekt
                         break;
                             
                 }
+                //runProgram = false;
             }
 
         }
@@ -68,20 +72,33 @@ namespace SQLminiprojekt
         static void TimeReporting()
         {
             List<UserModel> users = DBconnection.GetAllUsers();
-            string[] allUsers = Tools.ConertToArray(users);
+            string[] allUsers = ConertToArray(users);
             List<ProjectModel> projects = DBconnection.GetAllProjects();
-            string[] allProjects = Tools.ConertToArray(projects);
+            string[] allProjects = ConertToArray(projects);
 
-            Console.WriteLine("Välj vilken användare du ska rapportera på");
-            int selectedUser = Menu(allUsers);
+            int selectedUser = Tools.Menu(allUsers);
+            if(selectedUser == -1) { return; }
+            
+            int userDbId = DBconnection.GetUserID(allUsers[selectedUser]);
+
 
             Console.WriteLine("Ange vilket projekt");
-            int selectedProject = Menu(allProjects);
+            int selectedProject = Tools.Menu(allProjects);
+            if (selectedProject == -1) { return; }
+
+            int projectDbId = DBconnection.GetProjectID(allProjects[selectedProject]);
 
             Console.WriteLine("Ange hela timmar:");
             int hours = int.Parse(Console.ReadLine());
-        
-            
+
+
+            DBconnection.NewTimeReport(projectDbId, userDbId, hours);
+            Console.WriteLine("New time report added");
+            Console.ReadLine();
+
+
+
+
 
         }
         static void ModifyUser()
@@ -91,12 +108,12 @@ namespace SQLminiprojekt
                 "Ta bort användare " // --> user.remove()
             };
 
-            int selectedItem = Menu(UserMenu);
 
             bool runProgram = true;
 
             while (runProgram)
             {
+                int selectedItem = Tools.Menu(UserMenu);
                 switch (selectedItem)
                 {
                     case -1:
@@ -117,11 +134,32 @@ namespace SQLminiprojekt
         static void ModifyProject()
         {
 
-            string[] UserMenu = {
-                "Lägg till projekt", // --> user.add()
-                "Ta bort projekt " // --> user.remove()
+            string[] ProjectMenu = {
+                "Lägg till projekt", // --> Project.add()
+                "Ta bort projekt " // --> Project.remove()
             };
 
+
+            bool runProgram = true;
+
+            while (runProgram)
+            {
+                int selectedItem = Tools.Menu(ProjectMenu);
+                switch (selectedItem)
+                {
+                    case -1:
+                        break;
+                    case 0:
+                        Project.Add();
+
+                        break;
+                    case 1:
+                        Project.Remove();
+                        break;
+                }
+                runProgram = false;
+
+            }
         }
 
 

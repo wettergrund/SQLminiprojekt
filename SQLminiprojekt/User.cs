@@ -13,11 +13,6 @@ namespace SQLminiprojekt
         
         //}
 
-        internal static void Select()
-        {
-
-     
-        }
 
         internal static void Add()
         {
@@ -33,10 +28,15 @@ namespace SQLminiprojekt
             Console.WriteLine("Välj användare att ta bort");
 
             List<UserModel> users = DBconnection.GetAllUsers();
-            string[] listOfUsers = Tools.ConertToArray(users);
+            string[] listOfUsers = ConertToArray(users);
 
-            int userToRemove = Tools.Menu(listOfUsers);
-            
+            int userToRemove = Menu(listOfUsers);
+
+            if (userToRemove == -1)
+            {
+                return;
+            }
+
             // Get ID of user
             int idOfUser = DBconnection.GetUserID(listOfUsers[userToRemove]);
             Console.WriteLine($"Id är: {idOfUser}");

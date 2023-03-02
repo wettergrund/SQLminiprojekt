@@ -37,6 +37,14 @@ namespace SQLminiprojekt.Data
                 var output = cnn.Query<UserModel>($"INSERT INTO jwe_person (person_name) VALUES ('{newUserName}')", new DynamicParameters());
             }
         }
+        public static void NewProject(string newProjectName)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<UserModel>($"INSERT INTO jwe_project (project_name) VALUES ('{newProjectName}')", new DynamicParameters());
+            }
+        }
+
 
 
         public static void RemoveUser(int toDelete)
@@ -44,6 +52,13 @@ namespace SQLminiprojekt.Data
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
                 var output = cnn.Query<UserModel>($"DELETE FROM jwe_person WHERE id = {toDelete}", new DynamicParameters());
+            }
+        }
+        public static void NewTimeReport(int projectId, int personId, int hours)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<UserModel>($"INSERT INTO jwe_project_person (project_id, person_id, hours) VALUES ({projectId},{personId},{hours})", new DynamicParameters());
             }
         }
 
@@ -59,11 +74,19 @@ namespace SQLminiprojekt.Data
 
 
 
-        public static int GetUserID(string name)
+        public static int GetUserID(string personName)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<UserModel>($"SELECT id FROM jwe_person WHERE person_name = '{name}'", new DynamicParameters());
+                var output = cnn.Query<UserModel>($"SELECT id FROM jwe_person WHERE person_name = '{personName}'", new DynamicParameters());
+                return output.Last().Id;
+            }
+        }
+        public static int GetProjectID(string projectName)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<UserModel>($"SELECT id FROM jwe_project WHERE project_name = '{projectName}'", new DynamicParameters());
                 return output.Last().Id;
             }
         }
