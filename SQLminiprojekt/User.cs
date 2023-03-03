@@ -9,9 +9,7 @@ namespace SQLminiprojekt
     internal class User
     {
 
-        //public User() { 
-        
-        //}
+
 
 
         internal static void Add()

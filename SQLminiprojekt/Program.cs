@@ -47,7 +47,7 @@ namespace SQLminiprojekt
             while (runProgram)
             {
 
-                int selectedItem = Tools.Menu(mainMenu);
+                int selectedItem = Menu(mainMenu);
                 switch (selectedItem)
                 {
                     case -1:
@@ -73,17 +73,20 @@ namespace SQLminiprojekt
         {
             List<UserModel> users = DBconnection.GetAllUsers();
             string[] allUsers = ConertToArray(users);
+
+
             List<ProjectModel> projects = DBconnection.GetAllProjects();
             string[] allProjects = ConertToArray(projects);
 
-            int selectedUser = Tools.Menu(allUsers);
-            if(selectedUser == -1) { return; }
+            int selectedUser = Menu(allUsers);
+
+            if (selectedUser == -1) { return; }
             
             int userDbId = DBconnection.GetUserID(allUsers[selectedUser]);
 
 
             Console.WriteLine("Ange vilket projekt");
-            int selectedProject = Tools.Menu(allProjects);
+            int selectedProject = Menu(allProjects);
             if (selectedProject == -1) { return; }
 
             int projectDbId = DBconnection.GetProjectID(allProjects[selectedProject]);
@@ -113,7 +116,7 @@ namespace SQLminiprojekt
 
             while (runProgram)
             {
-                int selectedItem = Tools.Menu(UserMenu);
+                int selectedItem = Menu(UserMenu);
                 switch (selectedItem)
                 {
                     case -1:
@@ -144,7 +147,7 @@ namespace SQLminiprojekt
 
             while (runProgram)
             {
-                int selectedItem = Tools.Menu(ProjectMenu);
+                int selectedItem = Menu(ProjectMenu);
                 switch (selectedItem)
                 {
                     case -1:
