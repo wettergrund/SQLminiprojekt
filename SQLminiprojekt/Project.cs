@@ -18,6 +18,20 @@ namespace SQLminiprojekt
 
         }
 
+
+        internal static void Modify()
+        {
+            int projectDbID = SelectProject();
+
+            Console.WriteLine("Ange ett nytt namn");
+            string? newName = Console.ReadLine();
+
+            DBconnection.RenameProject(newName, projectDbID);
+
+
+        }
+
+
         // Remove not needed?
         internal static void Remove()
         {
@@ -42,5 +56,46 @@ namespace SQLminiprojekt
 
 
         }
+
+
+        private static int SelectProject()
+        {   
+            // Return DB ID of project
+
+            List<ProjectModel> users = DBconnection.GetAllProjects();
+            string[] listOfProjects = ConertToArray(users);
+
+            int projectID = Menu(listOfProjects, "Välj projekt");
+
+
+            if (projectID == -1)
+            {
+                return -1;
+            }
+            projectID = DBconnection.GetProjectID(listOfProjects[projectID]);
+
+            return projectID;
+        }
+
+        private static int SelectReport()
+        {
+            // Return DB ID of project
+
+            List<ProjectModel> users = DBconnection.GetAllProjects();
+            string[] listOfProjects = ConertToArray(users);
+
+            int projectID = Menu(listOfProjects, "Välj projekt");
+
+
+            if (projectID == -1)
+            {
+                return -1;
+            }
+            projectID = DBconnection.GetProjectID(listOfProjects[projectID]);
+
+            return projectID;
+        }
+
+
     }
 }

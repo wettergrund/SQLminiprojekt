@@ -110,7 +110,7 @@ namespace SQLminiprojekt
         {
             string[] UserMenu = { 
                 "Lägg till användare", // --> user.add()
-                "Ändra användare"
+                "Byt namn på användare"
                 //"Ta bort användare " // --> user.remove()
             };
 
@@ -144,7 +144,7 @@ namespace SQLminiprojekt
 
             string[] ProjectMenu = {
                 "Lägg till projekt", // --> Project.add()
-                "Ta bort projekt " // --> Project.remove()
+                "Byt namn på projekt " // --> Project.remove()
             };
 
 
@@ -162,7 +162,7 @@ namespace SQLminiprojekt
 
                         break;
                     case 1:
-                        Project.Remove();
+                        Project.Modify();
                         break;
                 }
                 showMenu = false;

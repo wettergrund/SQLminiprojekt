@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SQLminiprojekt.Data
 {
@@ -37,12 +38,33 @@ namespace SQLminiprojekt.Data
                 var output = cnn.Query<UserModel>($"INSERT INTO jwe_person (person_name) VALUES ('{newUserName}')", new DynamicParameters());
             }
         }
+
+
+        public static void RenameUser(string newName, int id) {
+
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Query<UserModel>($"UPDATE jwe_person SET person_name='{newName}' WHERE jwe_person.id = {id}", new DynamicParameters());
+            }
+
+        }
+
         public static void NewProject(string newProjectName)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
                 var output = cnn.Query<UserModel>($"INSERT INTO jwe_project (project_name) VALUES ('{newProjectName}')", new DynamicParameters());
             }
+        }
+
+        public static void RenameProject(string newName, int id)
+        {
+
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Query<UserModel>($"UPDATE jwe_project SET project_name='{newName}' WHERE jwe_project.id = {id}", new DynamicParameters());
+            }
+
         }
 
 
