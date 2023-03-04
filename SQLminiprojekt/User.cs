@@ -10,7 +10,25 @@ namespace SQLminiprojekt
     {
 
 
+        internal static int SelectID()
+        {
+            //Console.WriteLine("test");
+            //Return ID of user
 
+            List<UserModel> users = DBconnection.GetAllUsers();
+            string[] listOfUsers = ConertToArray(users);
+
+            int userToRemove = Menu(listOfUsers, "Välj användare");
+
+
+            if (userToRemove == -1)
+            {
+                return -1;
+            }
+            userToRemove = DBconnection.GetUserID(listOfUsers[userToRemove]);
+
+            return userToRemove;
+        }
 
         internal static void Add()
         {
@@ -21,14 +39,27 @@ namespace SQLminiprojekt
 
         }
 
+        internal static void Modify() {
+            int userDbID = SelectID();
+
+
+            /*
+             - Välj användare att ändra
+             - Ange nytt namn
+             
+             */
+
+
+        }
+
+        // Remove not needed?
         internal static void Remove()
         {
-            Console.WriteLine("Välj användare att ta bort");
 
             List<UserModel> users = DBconnection.GetAllUsers();
             string[] listOfUsers = ConertToArray(users);
 
-            int userToRemove = Menu(listOfUsers);
+            int userToRemove = Menu(listOfUsers, "Välj användare att ta bort");
 
             if (userToRemove == -1)
             {
