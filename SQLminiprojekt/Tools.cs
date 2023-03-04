@@ -49,10 +49,10 @@ namespace SQLminiprojekt
             /* Return an INT absed on selected menu item to be matched with eg. account in an array.  */
 
             /* Generate text box (optional) */
-            //if (header != "")
-            //{
-            //    GenerateBox(header);
-            //}
+            if (header != "")
+            {
+                GenerateBox(header);
+            }
 
             // Temp array to add array item (Go back option)
             string[] tempArray = new string[menuOptions.Length + 1];
@@ -121,12 +121,54 @@ namespace SQLminiprojekt
 
             if(selectedRow == lastPosition)
             {
-                Console.WriteLine("Gå tillbaka");
-                Console.ReadLine();
                 return -1;
             }
 
             return selectedRow;
+        }
+
+
+        internal static void GenerateBox(string text, bool newPage = true)
+        {
+            /* To get a nice border around eg. a header text */
+            if (newPage)
+            {
+                Console.Clear();
+            }
+
+            int strLength = text.Length;
+
+            string result = "";
+
+
+            string[] boxDesign = { 
+                /*0 */"╔", /*1 */"═", /*2 */"╗",
+                /*3 */"║", /* Text */
+                /*4 */"╚",           /*5 */"╝"
+            };
+
+            /* topp */
+            result += boxDesign[0];
+            for (int i = 0; i < strLength; i++)
+            {
+                result += boxDesign[1];
+            }
+            result += $"{boxDesign[2]}\n";
+
+            /* text */
+            result += boxDesign[3];
+            result += text;
+            result += $"{boxDesign[3]}\n";
+
+            /* bottom */
+            result += boxDesign[4];
+            for (int i = 0; i < strLength; i++)
+            {
+                result += boxDesign[1];
+            }
+            result += boxDesign[5];
+            Console.WriteLine(result);
+
         }
     }
 }
