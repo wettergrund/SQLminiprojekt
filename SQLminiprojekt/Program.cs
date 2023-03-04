@@ -10,6 +10,10 @@ namespace SQLminiprojekt
         static void Main(string[] args)
         {
             Run();
+
+            GenerateBox("Programmet kommer avslutas");
+            
+            Console.ReadLine();
             
             // Test connection
 
@@ -42,16 +46,16 @@ namespace SQLminiprojekt
             };
 
 
-            bool runProgram = true;
+            bool showMenu = true;
 
-            while (runProgram)
+            while (showMenu)
             {
 
-                int selectedItem = Menu(mainMenu);
+                int selectedItem = Menu(mainMenu, "Huvudmeny");
                 switch (selectedItem)
                 {
                     case -1:
-                        runProgram = false;
+                        showMenu = false;
                         break;
                     case 0:
                         TimeReporting();
@@ -64,7 +68,6 @@ namespace SQLminiprojekt
                         break;
                             
                 }
-                //runProgram = false;
             }
 
         }
@@ -78,15 +81,14 @@ namespace SQLminiprojekt
             List<ProjectModel> projects = DBconnection.GetAllProjects();
             string[] allProjects = ConertToArray(projects);
 
-            int selectedUser = Menu(allUsers);
+            int selectedUser = Menu(allUsers, "Välj person att registrera tid för");
 
             if (selectedUser == -1) { return; }
             
             int userDbId = DBconnection.GetUserID(allUsers[selectedUser]);
 
 
-            Console.WriteLine("Ange vilket projekt");
-            int selectedProject = Menu(allProjects);
+            int selectedProject = Menu(allProjects, "Ange projekt");
             if (selectedProject == -1) { return; }
 
             int projectDbId = DBconnection.GetProjectID(allProjects[selectedProject]);
@@ -108,26 +110,29 @@ namespace SQLminiprojekt
         {
             string[] UserMenu = { 
                 "Lägg till användare", // --> user.add()
-                "Ta bort användare " // --> user.remove()
+                "Ändra användare"
+                //"Ta bort användare " // --> user.remove()
             };
 
 
-            bool runProgram = true;
+            bool showMenu = true;
 
-            while (runProgram)
+            while (showMenu)
             {
-                int selectedItem = Menu(UserMenu);
+                int selectedItem = Menu(UserMenu, "Användarmeny");
                 switch (selectedItem)
                 {
                     case -1:
-                        runProgram = false;
+                        showMenu = false;
                         break;
                     case 0:
                         User.Add();
 
                         break;
                     case 1:
-                        User.Remove();
+                      
+                        User.Modify();
+                        //User.Remove();
                         break;
                 }
             }
@@ -143,11 +148,11 @@ namespace SQLminiprojekt
             };
 
 
-            bool runProgram = true;
+            bool showMenu = true;
 
-            while (runProgram)
+            while (showMenu)
             {
-                int selectedItem = Menu(ProjectMenu);
+                int selectedItem = Menu(ProjectMenu, "Projektmeny");
                 switch (selectedItem)
                 {
                     case -1:
@@ -160,7 +165,7 @@ namespace SQLminiprojekt
                         Project.Remove();
                         break;
                 }
-                runProgram = false;
+                showMenu = false;
 
             }
         }

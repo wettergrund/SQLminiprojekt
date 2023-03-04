@@ -18,6 +18,7 @@ namespace SQLminiprojekt
 
         }
 
+        // Remove not needed?
         internal static void Remove()
         {
             Console.WriteLine("Välj användare att ta bort"); 
