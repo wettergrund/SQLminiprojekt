@@ -9,6 +9,7 @@ namespace SQLminiprojekt
     {
         static void Main(string[] args)
         {
+            Project.SelectReport();
             Run();
 
             GenerateBox("Programmet kommer avslutas");

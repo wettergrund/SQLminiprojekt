@@ -77,23 +77,40 @@ namespace SQLminiprojekt
             return projectID;
         }
 
-        private static int SelectReport()
+        internal static int SelectReport()
         {
             // Return DB ID of project
 
-            List<ProjectModel> users = DBconnection.GetAllProjects();
-            string[] listOfProjects = ConertToArray(users);
+            List<ReportModel> projects = DBconnection.GetAllReports();
 
-            int projectID = Menu(listOfProjects, "Välj projekt");
+            string[] usersString = new string[projects.Count];
+            string[] projectString = new string[projects.Count];
 
 
-            if (projectID == -1)
+            for (int i = 0; i < projects.Count; i++)
             {
-                return -1;
-            }
-            projectID = DBconnection.GetProjectID(listOfProjects[projectID]);
+                usersString[i] = DBconnection.GetUserName(projects[i].Person_Id);
+                projectString[i] = DBconnection.GetProjectName(projects[i].Project_Id);
 
-            return projectID;
+            }
+
+            for (int i = 0; i < usersString.Length; i++)
+            {
+                Console.WriteLine(usersString[i] + " " + projectString[i] + " Tid: "+ projects[i].hours);
+            }
+
+            Console.ReadLine();
+            // AttributeTargets name by id
+            //int projectID = Menu(listOfProjects, "Välj projekt");
+
+
+            //if (projectID == -1)
+            //{
+            //    return -1;
+            //}
+            //projectID = DBconnection.GetProjectID(listOfProjects[projectID]);
+
+            return -1;
         }
 
 

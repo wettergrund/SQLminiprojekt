@@ -104,16 +104,43 @@ namespace SQLminiprojekt.Data
                 return output.Last().Id;
             }
         }
+
+        public static string GetUserName(int id)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<UserModel>($"SELECT person_name FROM jwe_person WHERE id = '{id}'", new DynamicParameters());
+                return output.Last().Person_Name;
+            }
+        }
+
         public static int GetProjectID(string projectName)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<UserModel>($"SELECT id FROM jwe_project WHERE project_name = '{projectName}'", new DynamicParameters());
+                var output = cnn.Query<ProjectModel>($"SELECT id FROM jwe_project WHERE project_name = '{projectName}'", new DynamicParameters());
                 return output.Last().Id;
             }
         }
 
+        public static string GetProjectName(int id)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<ProjectModel>($"SELECT project_name FROM jwe_project WHERE id = '{id}'", new DynamicParameters());
+                return output.Last().Project_Name;
+            }
+        }
 
+
+        public static List<ReportModel> GetAllReports()
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<ReportModel>($"SELECT * FROM jwe_project_person", new DynamicParameters());
+                return output.ToList();
+            }
+        }
         private static string LoadConnectionString(string id = "Default")
         {
             using (IDbConnection cnn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings[id].ConnectionString))
