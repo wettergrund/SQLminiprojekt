@@ -6,83 +6,10 @@ using System.Threading.Tasks;
 
 namespace SQLminiprojekt
 {
-    internal class Project
+    internal class Report
     {
 
-        internal static void Add()
-        {
-            Console.WriteLine("Ange ett projektnamn");
-            string newProject = Console.ReadLine();
-
-            DBconnection.NewProject(newProject);
-
-        }
-
-
-        internal static void Rename(string? newName = "", int projectDbID = -1)
-        {
-            if(projectDbID == -1 && newName == "") { 
-                projectDbID = SelectProject();
-                Console.WriteLine("Ange ett nytt namn");
-                newName = Console.ReadLine();
-            }
-
-            
-
-            DBconnection.RenameProject(newName, projectDbID);
-            Console.WriteLine($"Nytt namn är: {newName}");
-            Console.ReadLine();
-
-
-        }
-
-
-        // Remove not needed?
-        internal static void Remove()
-        {
-            Console.WriteLine("Välj användare att ta bort"); 
-
-            List<ProjectModel> allProjects = DBconnection.GetAllProjects();
-            string[] arrayOfProjects = ConertToArray(allProjects);
-
-            int projectToRemove = Menu(arrayOfProjects);
-
-
-            if (projectToRemove == -1) {
-                return;
-            }
-
-            // Get ID of user
-            int idOfProject = DBconnection.GetUserID(arrayOfProjects[projectToRemove]);
-
-            Console.WriteLine($"Id är: {idOfProject}");
-            Console.ReadLine();
-            DBconnection.RemoveUser(idOfProject);
-
-
-        }
-
-
-        private static int SelectProject()
-        {   
-            // Return DB ID of project
-
-            List<ProjectModel> users = DBconnection.GetAllProjects();
-            string[] listOfProjects = ConertToArray(users);
-
-            int projectID = Menu(listOfProjects, "Välj projekt");
-
-
-            if (projectID == -1)
-            {
-                return -1;
-            }
-            projectID = DBconnection.GetProjectID(listOfProjects[projectID]);
-
-            return projectID;
-        }
-
-        internal static int SelectReport()
+        internal static int Select()
         {
             // Return DB ID of project
 
@@ -131,7 +58,7 @@ namespace SQLminiprojekt
                     break;
                 case 2:
                     Console.WriteLine("Ange korrekt projekt");
-                    Rename(Console.ReadLine(), test);
+                    //Project.Rename(Console.ReadLine(), test);
                     // Change project
                     break;
             }
@@ -153,9 +80,5 @@ namespace SQLminiprojekt
 
             return -1;
         }
-
-
-
-
     }
 }

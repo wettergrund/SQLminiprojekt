@@ -9,7 +9,7 @@ namespace SQLminiprojekt
     {
         static void Main(string[] args)
         {
-            Project.SelectReport();
+            //Project.SelectReport();
             Run();
 
             GenerateBox("Programmet kommer avslutas");
@@ -43,7 +43,8 @@ namespace SQLminiprojekt
             string[] mainMenu = {
                 "Registrera arbetstid",
                 "Ändra användare",
-                "Ändra projekt"
+                "Ändra projekt",
+                "Ändra rapport"
             };
 
 
@@ -67,6 +68,10 @@ namespace SQLminiprojekt
                     case 2:
                         ModifyProject();
                         break;
+                    case 3:
+                        //ModifyReport();
+                        Project.SelectReport(); 
+                        break;
                             
                 }
             }
@@ -75,14 +80,15 @@ namespace SQLminiprojekt
 
         static void TimeReporting()
         {
+            //First let user choose what user  
             List<UserModel> users = DBconnection.GetAllUsers();
             string[] allUsers = ConertToArray(users);
+            int selectedUser = Menu(allUsers, "Välj person att registrera tid för");
 
-
+            //Then let user select project
             List<ProjectModel> projects = DBconnection.GetAllProjects();
             string[] allProjects = ConertToArray(projects);
 
-            int selectedUser = Menu(allUsers, "Välj person att registrera tid för");
 
             if (selectedUser == -1) { return; }
             
@@ -97,6 +103,7 @@ namespace SQLminiprojekt
             Console.WriteLine("Ange hela timmar:");
             int hours = int.Parse(Console.ReadLine());
 
+            projectDbId = GetProjectID();
 
             DBconnection.NewTimeReport(projectDbId, userDbId, hours);
             Console.WriteLine("New time report added");
@@ -107,6 +114,21 @@ namespace SQLminiprojekt
 
 
         }
+
+        static int GetProjectID()
+        {
+            List<ProjectModel> projects = DBconnection.GetAllProjects();
+            string[] allProjects = ConertToArray(projects);
+
+            int selectedProject = Menu(allProjects, "Ange projekt");
+            if (selectedProject == -1) { return; }
+
+            int result = DBconnection.GetProjectID(allProjects[selectedProject]);
+
+            return result;
+        }
+
+
         static void ModifyUser()
         {
             string[] UserMenu = { 
@@ -163,13 +185,15 @@ namespace SQLminiprojekt
 
                         break;
                     case 1:
-                        Project.Modify();
+                        Project.Rename();
                         break;
                 }
                 showMenu = false;
 
             }
         }
+
+        //static void ModifyReport();
 
     }
 }
