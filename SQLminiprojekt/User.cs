@@ -33,20 +33,28 @@ namespace SQLminiprojekt
         internal static void Add()
         {
             Console.WriteLine("Ange ett namn");
-            string newUser = Console.ReadLine();    
+            string newUser = FormatName(Console.ReadLine());
+
             DBconnection.NewUser(newUser);
-
-
+            Console.WriteLine(newUser + " har skapats");
+            Console.ReadLine();
         }
 
-        internal static void Modify() {
+        internal static void Rename() {
             int userDbID = SelectUser();
+            string oldName = DBconnection.GetUserName(userDbID);
 
             Console.WriteLine("Ange ett nytt namn");
-            string? newName = Console.ReadLine();
+            string? newName = FormatName(Console.ReadLine());
+
+            if(newName == null)
+            {
+                return;
+            }
 
             DBconnection.RenameUser(newName,userDbID);
-
+            Console.WriteLine($"Namnet har ändrats från: {oldName}\nTill: {newName}");
+            Console.ReadLine();
 
         }
 
@@ -61,6 +69,7 @@ namespace SQLminiprojekt
 
             if (userToRemove == -1)
             {
+                
                 return;
             }
 
@@ -71,6 +80,17 @@ namespace SQLminiprojekt
             DBconnection.RemoveUser(idOfUser);
 
 
+        }
+
+        private static string FormatName(string inputString)
+        {
+            if(inputString.Length == 0)
+            {
+                Console.WriteLine("Du har inte angett något namn");
+                Console.ReadLine();
+                return null;
+            }
+            return inputString[0].ToString().ToUpper() + inputString.Substring(1).ToLower();
         }
     }
 }
