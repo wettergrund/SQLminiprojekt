@@ -30,6 +30,11 @@
             Console.WriteLine("Ange ett namn");
             string newUser = FormatName(Console.ReadLine());
 
+            if(newUser == null)
+            {
+                return;
+            }
+
             DBconnection.NewUser(newUser);
             Console.WriteLine(newUser + " har skapats");
             Console.ReadLine();
@@ -39,6 +44,11 @@
             // Rename existing user
 
             int userDbID = GetUserID();
+            if (GoBack(userDbID))
+            {
+                return;
+            }
+
             string oldName = DBconnection.GetUserName(userDbID);
 
             Console.WriteLine("Ange ett nytt namn");
