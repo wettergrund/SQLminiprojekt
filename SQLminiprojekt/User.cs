@@ -58,30 +58,6 @@ namespace SQLminiprojekt
 
         }
 
-        // Remove not needed?
-        internal static void Remove()
-        {
-
-            List<UserModel> users = DBconnection.GetAllUsers();
-            string[] listOfUsers = ConertToArray(users);
-
-            int userToRemove = Menu(listOfUsers, "Välj användare att ta bort");
-
-            if (userToRemove == -1)
-            {
-                
-                return;
-            }
-
-            // Get ID of user
-            int idOfUser = DBconnection.GetUserID(listOfUsers[userToRemove]);
-            Console.WriteLine($"Id är: {idOfUser}");
-            Console.ReadLine();
-            DBconnection.RemoveUser(idOfUser);
-
-
-        }
-
         private static string FormatName(string inputString)
         {
             if(inputString.Length == 0)
