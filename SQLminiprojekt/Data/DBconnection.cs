@@ -141,6 +141,16 @@ namespace SQLminiprojekt.Data
                 return output.ToList();
             }
         }
+
+        public static void UpdateReport(string fieldToUpdate, string newData, int id)
+        {
+          
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Query<ReportModel>($"UPDATE jwe_project_person SET {fieldToUpdate}={newData} WHERE id={id}", new DynamicParameters());
+            }
+        }
+
         private static string LoadConnectionString(string id = "Default")
         {
             using (IDbConnection cnn = new NpgsqlConnection(ConfigurationManager.ConnectionStrings[id].ConnectionString))

@@ -9,76 +9,105 @@ namespace SQLminiprojekt
     internal class Report
     {
 
-        internal static int Select()
+        internal static int ReportID()
         {
-            // Return DB ID of project
 
-            List<ReportModel> projects = DBconnection.GetAllReports();
+            List<ReportModel> reports = DBconnection.GetAllReports();
 
-            string[] usersString = new string[projects.Count];
-            string[] projectString = new string[projects.Count];
-            string[] combinedStrings = new string[projects.Count];
+            string[] usersString = new string[reports.Count];
+            string[] projectString = new string[reports.Count];
+            string[] combinedStrings = new string[reports.Count];
 
 
-            for (int i = 0; i < projects.Count; i++)
+            for (int i = 0; i < reports.Count; i++)
             {
-                usersString[i] = DBconnection.GetUserName(projects[i].Person_Id);
-                projectString[i] = DBconnection.GetProjectName(projects[i].Project_Id);
+                usersString[i] = DBconnection.GetUserName(reports[i].Person_Id);
+                projectString[i] = DBconnection.GetProjectName(reports[i].Project_Id);
 
-                combinedStrings[i] = $"{usersString[i]} {projectString[i]} {projects[i].hours}";
+                combinedStrings[i] = $"{usersString[i]} {projectString[i]} {reports[i].hours}";
 
             }
 
             int test = Menu(combinedStrings, "Välj rapport att ändra");
 
+            return reports[test].Id;
+        }
 
-            //for (int i = 0; i < usersString.Length; i++)
-            //{
-            //    Console.WriteLine(usersString[i] + " " + projectString[i] + " Tid: "+ projects[i].hours);
-            //}
+        internal static void SelectReport()
+        {
+            // Return DB ID of project
+
+            List<ReportModel> reports = DBconnection.GetAllReports();
+
+            string[] usersString = new string[reports.Count];
+            string[] projectString = new string[reports.Count];
+
+            string[] combinedStrings = new string[reports.Count];
+
+
+            for (int i = 0; i < reports.Count; i++)
+            {
+                usersString[i] = DBconnection.GetUserName(reports[i].Person_Id);
+                projectString[i] = DBconnection.GetProjectName(reports[i].Project_Id);
+
+                combinedStrings[i] = $"{usersString[i]} {projectString[i]} {reports[i].hours}";
+            }
+
+            int reportIndex = Menu(combinedStrings, "Välj rapport att ändra");
+
+            if (reportIndex == -1) { return; }
+
+            string reportUser = usersString[reportIndex];
+            int reportHours = reports[reportIndex].hours;
+            string reportProject =projectString[reportIndex];
+
+
 
             string[] reportMenu = {
-                $"Ändra person ({usersString[test]})",
-                $"Ändra tid ({projects[test].hours})",
-                $"Ändra projekt({projectString[test]})"
+                $"Ändra person ({reportUser})",
+                $"Ändra tid ({reportHours})",
+                $"Ändra projekt({reportProject})"
             };
 
             int reportMenuChoice = Menu(reportMenu);
 
+            int idOfProject = reports[reportIndex].Id;
+
+
             switch (reportMenuChoice)
             {
                 case 0:
-                    Console.WriteLine();
+
+                    int newUserDbId = User.SelectUser("Välj korrekt person");
+
+                    if (newUserDbId == -1)
+                    {
+                        break;
+                    }
+
+                    DBconnection.UpdateReport("person_id", $"{newUserDbId}", idOfProject);
                     // Change person
                     break;
                 case 1:
-                    Console.WriteLine("Ange en ny tid");
-                    int newTime = int.Parse(Console.ReadLine());
                     // Change hour
+                    int newTime = GetHours();
+
+                    if (newTime == -1)
+                    {
+                        break;
+                    }
+
+                    DBconnection.UpdateReport("hours", $"{newTime}", idOfProject);
                     break;
                 case 2:
-                    Console.WriteLine("Ange korrekt projekt");
-                    //Project.Rename(Console.ReadLine(), test);
                     // Change project
+                    Console.ReadLine();
+                    int projectDbId = Project.GetProjectID("Ange korrekt projekt");
+                    DBconnection.UpdateReport("project_id", $"{projectDbId}", idOfProject);
                     break;
             }
-
-
-            Console.WriteLine(test);
-
-
             Console.ReadLine();
-            // AttributeTargets name by id
-            //int projectID = Menu(listOfProjects, "Välj projekt");
-
-
-            //if (projectID == -1)
-            //{
-            //    return -1;
-            //}
-            //projectID = DBconnection.GetProjectID(listOfProjects[projectID]);
-
-            return -1;
         }
+
     }
 }

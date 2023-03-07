@@ -40,6 +40,27 @@ namespace SQLminiprojekt
             return strings;
         }
 
+        internal static int GetHours(string text = "Ange tid i hela timmar")
+        {
+            bool isValid;
+            int selectedNumber;
+            string userInput;
+
+            GenerateBox(text);
+            userInput = Console.ReadLine();
+
+            isValid = int.TryParse(userInput, out selectedNumber);
+
+            if (!isValid)
+            {
+                Console.WriteLine("Något gick fel, försök igen och ange hela timmar");
+                Console.ReadLine();
+                return -1;
+            }
+
+            return selectedNumber;
+
+        }
 
 
         internal static int Menu(string[] menuOptions, string header = "")

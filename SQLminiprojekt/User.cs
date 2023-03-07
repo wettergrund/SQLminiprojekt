@@ -10,7 +10,7 @@ namespace SQLminiprojekt
     {
 
 
-        private static int SelectUser()
+        internal static int SelectUser(string text = "Välj användare")
         {
             //Console.WriteLine("test");
             //Return ID of user
@@ -18,7 +18,7 @@ namespace SQLminiprojekt
             List<UserModel> users = DBconnection.GetAllUsers();
             string[] listOfUsers = ConertToArray(users);
 
-            int userID = Menu(listOfUsers, "Välj användare");
+            int userID = Menu(listOfUsers, text);
 
 
             if (userID == -1)

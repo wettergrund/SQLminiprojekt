@@ -9,36 +9,17 @@ namespace SQLminiprojekt
     {
         static void Main(string[] args)
         {
-            //Project.SelectReport();
+   
             Run();
 
             GenerateBox("Programmet kommer avslutas");
             
             Console.ReadLine();
-            
-            // Test connection
-
-            //List<UserModel> users = DBconnection.GetAllUsers();
-
-            //string[] allUsers = ConertToArray(users);
-
-            //int selectedOption = Menu(allUsers);
-
-            //Console.WriteLine(selectedOption);
-            //Console.ReadLine();
 
         }
 
         static void Run()
         {
-            /* Menu should contain
-             * 
-             * Registrera arbetstid -> TimeReporting()
-             * Modify Users -> user.add(), user.remove()
-             * Modify projects -> projects.add(), project.remove()
-             * 
-             * 
-             */
 
             string[] mainMenu = {
                 "Registrera arbetstid",
@@ -69,8 +50,7 @@ namespace SQLminiprojekt
                         ModifyProject();
                         break;
                     case 3:
-                        //ModifyReport();
-                        Project.SelectReport(); 
+                        ModifyReport();
                         break;
                             
                 }
@@ -80,54 +60,21 @@ namespace SQLminiprojekt
 
         static void TimeReporting()
         {
-            //First let user choose what user  
-            List<UserModel> users = DBconnection.GetAllUsers();
-            string[] allUsers = ConertToArray(users);
-            int selectedUser = Menu(allUsers, "Välj person att registrera tid för");
 
-            //Then let user select project
-            List<ProjectModel> projects = DBconnection.GetAllProjects();
-            string[] allProjects = ConertToArray(projects);
+            int userDbId = User.SelectUser("Välj person att registrera tid för");
+            int projectDbId = Project.GetProjectID();
 
-
-            if (selectedUser == -1) { return; }
-            
-            int userDbId = DBconnection.GetUserID(allUsers[selectedUser]);
-
-
-            int selectedProject = Menu(allProjects, "Ange projekt");
-            if (selectedProject == -1) { return; }
-
-            int projectDbId = DBconnection.GetProjectID(allProjects[selectedProject]);
-
-            Console.WriteLine("Ange hela timmar:");
-            int hours = int.Parse(Console.ReadLine());
-
-            projectDbId = GetProjectID();
+            int hours = GetHours();
+            if(hours == -1)
+            {
+                return;
+            }
 
             DBconnection.NewTimeReport(projectDbId, userDbId, hours);
-            Console.WriteLine("New time report added");
+            Console.WriteLine("New time report added"); 
             Console.ReadLine();
 
-
-
-
-
         }
-
-        static int GetProjectID()
-        {
-            List<ProjectModel> projects = DBconnection.GetAllProjects();
-            string[] allProjects = ConertToArray(projects);
-
-            int selectedProject = Menu(allProjects, "Ange projekt");
-            if (selectedProject == -1) { return; }
-
-            int result = DBconnection.GetProjectID(allProjects[selectedProject]);
-
-            return result;
-        }
-
 
         static void ModifyUser()
         {
@@ -166,8 +113,8 @@ namespace SQLminiprojekt
         {
 
             string[] ProjectMenu = {
-                "Lägg till projekt", // --> Project.add()
-                "Byt namn på projekt " // --> Project.remove()
+                "Lägg till projekt", 
+                "Byt namn på projekt " 
             };
 
 
@@ -193,7 +140,34 @@ namespace SQLminiprojekt
             }
         }
 
-        //static void ModifyReport();
+        static void ModifyReport()
+        {
+            string[] ReportMenu = {
+                "Ändra rapport", 
+                "Ta bort rapport" 
+            };
+
+            bool showMenu = true;
+
+            while (showMenu)
+            {
+
+                int selectedItem = Menu(ReportMenu, "Ändra rapporter");
+                switch (selectedItem)
+                {
+                    case -1:
+                        showMenu = false;
+                        break;
+                    case 0:
+                        Report.SelectReport();
+                        break;
+                    case 1:
+                        //Remove report
+                        break;
+
+                }
+            }
+        }
 
     }
 }
