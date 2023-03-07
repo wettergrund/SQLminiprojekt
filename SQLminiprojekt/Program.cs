@@ -9,7 +9,8 @@ namespace SQLminiprojekt
     {
         static void Main(string[] args)
         {
-   
+
+
             Run();
 
             GenerateBox("Programmet kommer avslutas");
@@ -34,7 +35,7 @@ namespace SQLminiprojekt
             while (showMenu)
             {
 
-                int selectedItem = Menu(mainMenu, "Huvudmeny");
+                int selectedItem = Menu(mainMenu, "Huvudmeny", true);
                 switch (selectedItem)
                 {
                     case -1:
@@ -62,16 +63,30 @@ namespace SQLminiprojekt
         {
 
             int userDbId = User.SelectUser("Välj person att registrera tid för");
-            int projectDbId = Project.GetProjectID();
+            if (GoBack(userDbId))
+            {
+                return;
+            }
 
             int hours = GetHours();
-            if(hours == -1)
+            if(GoBack(hours))
+            { 
+                return;
+            }
+
+            int projectDbId = Project.GetProjectID();
+            if (GoBack(projectDbId))
             {
                 return;
             }
 
             DBconnection.NewTimeReport(projectDbId, userDbId, hours);
-            Console.WriteLine("New time report added"); 
+
+            Console.Clear();
+            GenerateBox("Tidrapport skapad");
+            Console.WriteLine($"Användare: {DBconnection.GetUserName(userDbId)}");
+            Console.WriteLine($"Projekt: {DBconnection.GetProjectName(projectDbId)}");
+            Console.WriteLine($"Tid: {hours} timmar");
             Console.ReadLine();
 
         }
@@ -101,7 +116,7 @@ namespace SQLminiprojekt
                         break;
                     case 1:
                       
-                        User.Modify();
+                        User.Rename();
                         //User.Remove();
                         break;
                 }
