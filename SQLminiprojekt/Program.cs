@@ -50,7 +50,7 @@ namespace SQLminiprojekt
                         ModifyProject();
                         break;
                     case 3:
-                        ModifyReport();
+                        Report.ModifyReport();
                         break;
                             
                 }
@@ -159,7 +159,7 @@ namespace SQLminiprojekt
                         showMenu = false;
                         break;
                     case 0:
-                        Report.SelectReport();
+                        Report.ModifyReport();
                         break;
                     case 1:
                         //Remove report

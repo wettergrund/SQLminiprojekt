@@ -8,32 +8,7 @@ namespace SQLminiprojekt
 {
     internal class Report
     {
-
-        internal static int ReportID()
-        {
-
-            List<ReportModel> reports = DBconnection.GetAllReports();
-
-            string[] usersString = new string[reports.Count];
-            string[] projectString = new string[reports.Count];
-            string[] combinedStrings = new string[reports.Count];
-
-
-            for (int i = 0; i < reports.Count; i++)
-            {
-                usersString[i] = DBconnection.GetUserName(reports[i].Person_Id);
-                projectString[i] = DBconnection.GetProjectName(reports[i].Project_Id);
-
-                combinedStrings[i] = $"{usersString[i]} {projectString[i]} {reports[i].hours}";
-
-            }
-
-            int test = Menu(combinedStrings, "Välj rapport att ändra");
-
-            return reports[test].Id;
-        }
-
-        internal static void SelectReport()
+        internal static void ModifyReport()
         {
             // Return DB ID of project
 
@@ -55,6 +30,8 @@ namespace SQLminiprojekt
 
             int reportIndex = Menu(combinedStrings, "Välj rapport att ändra");
 
+
+
             if (reportIndex == -1) { return; }
 
             string reportUser = usersString[reportIndex];
@@ -66,7 +43,8 @@ namespace SQLminiprojekt
             string[] reportMenu = {
                 $"Ändra person ({reportUser})",
                 $"Ändra tid ({reportHours})",
-                $"Ändra projekt({reportProject})"
+                $"Ändra projekt({reportProject})",
+                $"Ta bort rapport"
             };
 
             int reportMenuChoice = Menu(reportMenu);
@@ -105,9 +83,25 @@ namespace SQLminiprojekt
                     int projectDbId = Project.GetProjectID("Ange korrekt projekt");
                     DBconnection.UpdateReport("project_id", $"{projectDbId}", idOfProject);
                     break;
+                case 3:
+                    string[] confirm = { "Nej", "Ja" };
+                    int confirmChoice = Menu(confirm, $"Är du säker på att du vill ta bort rapporten? [ID: {idOfProject} ]");
+                    switch (confirmChoice)
+                    {
+                        case 0:
+                        case -1:
+                            break;
+                        case 1:
+                            DBconnection.RemoveReport(idOfProject);
+                            break;
+                    }
+                    break;
             }
-            Console.ReadLine();
         }
 
+        internal static void RemoveReport()
+        {
+
+        }
     }
 }

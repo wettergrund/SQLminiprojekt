@@ -85,6 +85,15 @@ namespace SQLminiprojekt.Data
         }
 
 
+        public static void RemoveReport(int toDelete)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<UserModel>($"DELETE FROM jwe_project_person WHERE id = {toDelete}", new DynamicParameters());
+            }
+        }
+
+
         public static List<ProjectModel> GetAllProjects()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
