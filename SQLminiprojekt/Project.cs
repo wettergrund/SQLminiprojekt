@@ -94,24 +94,5 @@ namespace SQLminiprojekt
             }
         }
 
-        //private static int SelectProject()
-        //{   
-        //    // Return DB ID of project
-
-        //    List<ProjectModel> users = DBconnection.GetAllProjects();
-        //    string[] listOfProjects = ConertToArray(users);
-
-        //    int projectID = Menu(listOfProjects, "Välj projekt");
-
-
-        //    if (projectID == -1)
-        //    {
-        //        return -1;
-        //    }
-        //    projectID = DBconnection.GetProjectID(listOfProjects[projectID]);
-
-        //    return projectID;
-        //}
-
     }
 }
