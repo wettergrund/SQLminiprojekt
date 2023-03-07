@@ -74,6 +74,10 @@ namespace SQLminiprojekt
                     {
                         break;
                     }
+                    if(newTime == 0)
+                    {
+                        RemoveReport(idOfProject);
+                    }
 
                     DBconnection.UpdateReport("hours", $"{newTime}", idOfProject);
                     break;
@@ -84,24 +88,24 @@ namespace SQLminiprojekt
                     DBconnection.UpdateReport("project_id", $"{projectDbId}", idOfProject);
                     break;
                 case 3:
-                    string[] confirm = { "Nej", "Ja" };
-                    int confirmChoice = Menu(confirm, $"Är du säker på att du vill ta bort rapporten? [ID: {idOfProject} ]");
-                    switch (confirmChoice)
-                    {
-                        case 0:
-                        case -1:
-                            break;
-                        case 1:
-                            DBconnection.RemoveReport(idOfProject);
-                            break;
-                    }
+                    RemoveReport(idOfProject);
                     break;
             }
         }
 
-        internal static void RemoveReport()
+        internal static void RemoveReport(int idTorRemove)
         {
-
+            string[] confirm = { "Nej", "Ja" };
+            int confirmChoice = Menu(confirm, $"Är du säker på att du vill ta bort rapporten? [ID: {idTorRemove} ]");
+            switch (confirmChoice)
+            {
+                case 0:
+                case -1:
+                    break;
+                case 1:
+                    DBconnection.RemoveReport(idTorRemove);
+                    break;
+            }
         }
     }
 }
