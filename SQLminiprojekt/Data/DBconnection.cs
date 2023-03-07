@@ -14,14 +14,6 @@ namespace SQLminiprojekt.Data
     internal class DBconnection
     {
 
-
-        /*
-             
-
-
-         */
-
-        //Test connection, list all users
         public static List<UserModel> GetAllUsers()
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -48,6 +40,8 @@ namespace SQLminiprojekt.Data
             }
 
         }
+
+      
 
         public static void NewProject(string newProjectName)
         {

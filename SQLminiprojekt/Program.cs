@@ -62,7 +62,7 @@ namespace SQLminiprojekt
         static void TimeReporting()
         {
 
-            int userDbId = User.SelectUser("Välj person att registrera tid för");
+            int userDbId = User.GetUserID("Välj person att registrera tid för");
             if (GoBack(userDbId))
             {
                 return;
@@ -111,12 +111,12 @@ namespace SQLminiprojekt
                         showMenu = false;
                         break;
                     case 0:
-                        User.Add();
+                        User.AddUser();
 
                         break;
                     case 1:
                       
-                        User.Rename();
+                        User.RenameUser();
                         //User.Remove();
                         break;
                 }
@@ -143,11 +143,11 @@ namespace SQLminiprojekt
                     case -1:
                         break;
                     case 0:
-                        Project.Add();
+                        Project.AddProject();
 
                         break;
                     case 1:
-                        Project.Rename();
+                        Project.RenameProject();
                         break;
                 }
                 showMenu = false;

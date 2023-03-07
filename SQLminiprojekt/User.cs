@@ -10,10 +10,9 @@ namespace SQLminiprojekt
     {
 
 
-        internal static int SelectUser(string text = "Välj användare")
+        internal static int GetUserID(string text = "Välj användare")
         {
-            //Console.WriteLine("test");
-            //Return ID of user
+            //Return DB ID of user
 
             List<UserModel> users = DBconnection.GetAllUsers();
             string[] listOfUsers = ConertToArray(users);
@@ -30,8 +29,10 @@ namespace SQLminiprojekt
             return userID;
         }
 
-        internal static void Add()
+        internal static void AddUser()
         {
+            //Add new user to DB
+
             Console.WriteLine("Ange ett namn");
             string newUser = FormatName(Console.ReadLine());
 
@@ -40,8 +41,10 @@ namespace SQLminiprojekt
             Console.ReadLine();
         }
 
-        internal static void Rename() {
-            int userDbID = SelectUser();
+        internal static void RenameUser() {
+            // Rename existing user
+
+            int userDbID = GetUserID();
             string oldName = DBconnection.GetUserName(userDbID);
 
             Console.WriteLine("Ange ett nytt namn");
@@ -56,17 +59,6 @@ namespace SQLminiprojekt
             Console.WriteLine($"Namnet har ändrats från: {oldName}\nTill: {newName}");
             Console.ReadLine();
 
-        }
-
-        private static string FormatName(string inputString)
-        {
-            if(inputString.Length == 0)
-            {
-                Console.WriteLine("Du har inte angett något namn");
-                Console.ReadLine();
-                return null;
-            }
-            return inputString[0].ToString().ToUpper() + inputString.Substring(1).ToLower();
         }
     }
 }

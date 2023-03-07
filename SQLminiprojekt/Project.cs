@@ -9,63 +9,78 @@ namespace SQLminiprojekt
     internal class Project
     {
 
-        internal static void Add()
+        internal static void AddProject()
         {
+            //Add new project
+
             Console.WriteLine("Ange ett projektnamn");
-            string newProject = Console.ReadLine();
+            string newProject = FormatName(Console.ReadLine());
+            if(newProject == null)
+            {
+                return;
+            }
 
             DBconnection.NewProject(newProject);
 
         }
 
-        internal static void Rename(string? newName = "", int projectDbID = -1)
+        internal static void RenameProject()
         {
-            if(projectDbID == -1 && newName == "") { 
-                projectDbID = SelectProject();
-                Console.WriteLine("Ange ett nytt namn");
-                newName = Console.ReadLine();
+            //Rename project
+            
+            int projectDbID = GetProjectID();
+            Console.WriteLine("Ange ett nytt projektnamn");
+            string newName = FormatName(Console.ReadLine());
+            
+            //Stop function if no name is entered
+            if(newName == null)
+            {
+                return;
             }
 
-            
-
+            //Name change in DB
             DBconnection.RenameProject(newName, projectDbID);
-            Console.WriteLine($"Nytt namn är: {newName}");
+            Console.WriteLine($"Nytt projektnamn är: {newName}");
             Console.ReadLine();
-
 
         }
 
         internal static int GetProjectID(string text = "Ange projekt")
         {
+            // Let user select project and return its DB ID 
+
             List<ProjectModel> projects = DBconnection.GetAllProjects();
             string[] allProjects = ConertToArray(projects);
 
             int selectedProject = Menu(allProjects, text);
-            if (selectedProject == -1) { return -1; }
+
+            if (GoBack(selectedProject)) { 
+                return -1; 
+            }
 
             int result = DBconnection.GetProjectID(allProjects[selectedProject]);
 
             return result;
         }
 
-        private static int SelectProject()
-        {   
-            // Return DB ID of project
+        //private static int SelectProject()
+        //{   
+        //    // Return DB ID of project
 
-            List<ProjectModel> users = DBconnection.GetAllProjects();
-            string[] listOfProjects = ConertToArray(users);
+        //    List<ProjectModel> users = DBconnection.GetAllProjects();
+        //    string[] listOfProjects = ConertToArray(users);
 
-            int projectID = Menu(listOfProjects, "Välj projekt");
+        //    int projectID = Menu(listOfProjects, "Välj projekt");
 
 
-            if (projectID == -1)
-            {
-                return -1;
-            }
-            projectID = DBconnection.GetProjectID(listOfProjects[projectID]);
+        //    if (projectID == -1)
+        //    {
+        //        return -1;
+        //    }
+        //    projectID = DBconnection.GetProjectID(listOfProjects[projectID]);
 
-            return projectID;
-        }
+        //    return projectID;
+        //}
 
     }
 }

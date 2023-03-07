@@ -12,44 +12,48 @@ namespace SQLminiprojekt
 
         internal static string[] ConertToArray(List<UserModel> input)
         {
+            //Convert a list to an array
 
             int numberOfItems = input.Count;
 
-            string[] strings = new string[numberOfItems];
+            string[] newArray = new string[numberOfItems];
 
             for (int i = 0; i < numberOfItems; i++)
             {
-                strings[i] = input[i].Person_Name;
+                newArray[i] = input[i].Person_Name;
             }
 
-            return strings;
+            return newArray;
         }
 
         internal static string[] ConertToArray(List<ProjectModel> input)
         {
+            //Overload of project model 
 
             int numberOfItems = input.Count;
 
-            string[] strings = new string[numberOfItems];
+            string[] newArray = new string[numberOfItems];
 
             for (int i = 0; i < numberOfItems; i++)
             {
-                strings[i] = input[i].Project_Name;
+                newArray[i] = input[i].Project_Name;
             }
 
-            return strings;
+            return newArray;
         }
 
         internal static int GetHours(string text = "Ange tid i hela timmar")
         {
+            //A method to validate and return hours
+
             bool isValid;
-            int selectedNumber;
+            int selectedTime;
             string userInput;
 
             GenerateBox(text);
             userInput = Console.ReadLine();
 
-            isValid = int.TryParse(userInput, out selectedNumber);
+            isValid = int.TryParse(userInput, out selectedTime);
 
             if (!isValid)
             {
@@ -58,16 +62,31 @@ namespace SQLminiprojekt
                 return -1;
             }
 
-            return selectedNumber;
+            return selectedTime;
 
         }
+
+        internal static string FormatName(string inputString)
+        {
+            //Validate and return name with uppe firts letter. Currently not taking care of typos where 2nd letter and beyond is in upper case.
+            if (inputString.Length == 0)
+            {
+                Console.WriteLine("Du har inte angett något namn");
+                Console.ReadLine();
+                return null;
+            }
+            return inputString[0].ToString().ToUpper() + inputString.Substring(1);
+        }
+
+
 
 
         internal static int Menu(string[] menuOptions, string header = "" , bool isMainMenu = false )
         {
+            /* Return an INT absed on selected menu item to be matched with eg. account in an array.  */
+
             Console.Clear();
 
-            /* Return an INT absed on selected menu item to be matched with eg. account in an array.  */
 
             /* Generate text box (optional) */
             if (header != "")
@@ -194,6 +213,7 @@ namespace SQLminiprojekt
 
         public static bool GoBack(int input)
         {
+            //Just validate if a eg. a menu selection return -1 ( = error/go back) for better readability. 
             if(input == -1)
             {
                 return true;
