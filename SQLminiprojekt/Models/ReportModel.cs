@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SQLminiprojekt.Models
+﻿namespace SQLminiprojekt.Models
 {
     internal class ReportModel
     {
@@ -12,7 +6,5 @@ namespace SQLminiprojekt.Models
         public int Project_Id { get; set; }
         public int Person_Id { get; set; }
         public int hours { get; set;}
-        
-
     }
 }

@@ -1,19 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SQLminiprojekt
+﻿namespace SQLminiprojekt
 {
     internal class Report
     {
+        internal static void TimeReporting()
+        {
+            //Add a new time report
+
+            //Let user select user
+            int userDbId = User.GetUserID("Välj person att registrera tid för");
+            if (GoBack(userDbId))
+            {
+                return;
+            }
+
+            //Let user enter hours
+            int hours = GetHours();
+            if (GoBack(hours))
+            {
+                return;
+            }
+
+            //Let user select project
+            int projectDbId = Project.GetProjectID();
+            if (GoBack(projectDbId))
+            {
+                return;
+            }
+
+            // Added to DB
+            DBconnection.NewTimeReport(projectDbId, userDbId, hours);
+
+            Console.Clear();
+            GenerateBox("Tidrapport skapad");
+            Console.WriteLine($"Användare: {DBconnection.GetUserName(userDbId)}");
+            Console.WriteLine($"Projekt: {DBconnection.GetProjectName(projectDbId)}");
+            Console.WriteLine($"Tid: {hours} timmar");
+            Console.ReadLine();
+
+        }
         internal static void ModifyReport()
         {
             
 
             //List all reports and let user select the one to update
-            List<ReportModel> reports = DBconnection.GetAllReports();
+            List<ReportModel> reports = DBconnection.GetLastReports();
 
             string[] usersString = new string[reports.Count];
             string[] projectString = new string[reports.Count];

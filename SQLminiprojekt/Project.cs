@@ -63,6 +63,37 @@ namespace SQLminiprojekt
             return result;
         }
 
+        internal static void ModifyProject()
+        {
+            // Options to modify existing project
+
+            string[] ProjectMenu = {
+                "Lägg till projekt", // --> AddProject()
+                "Byt namn på projekt " // --> RenameProject()
+            };
+
+            bool showMenu = true;
+
+            while (showMenu)
+            {
+                int selectedItem = Menu(ProjectMenu, "Projektmeny");
+                switch (selectedItem)
+                {
+                    case -1:
+                        break;
+                    case 0:
+                        AddProject();
+
+                        break;
+                    case 1:
+                        RenameProject();
+                        break;
+                }
+                showMenu = false;
+
+            }
+        }
+
         //private static int SelectProject()
         //{   
         //    // Return DB ID of project

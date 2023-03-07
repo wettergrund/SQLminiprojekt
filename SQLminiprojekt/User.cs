@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SQLminiprojekt
+﻿namespace SQLminiprojekt
 {
     internal class User
     {
@@ -59,6 +53,36 @@ namespace SQLminiprojekt
             Console.WriteLine($"Namnet har ändrats från: {oldName}\nTill: {newName}");
             Console.ReadLine();
 
+        }
+
+        internal static void ModifyUser()
+        {
+            //Options to change existing user
+
+            string[] UserMenu = {
+                "Lägg till användare", // --> AddUser();
+                "Byt namn på användare" // --> RenameUser()
+            };
+
+
+            bool showMenu = true;
+
+            while (showMenu)
+            {
+                int selectedItem = Menu(UserMenu, "Användarmeny");
+                switch (selectedItem)
+                {
+                    case -1:
+                        showMenu = false;
+                        break;
+                    case 0:
+                        AddUser();
+                        break;
+                    case 1:
+                        RenameUser();
+                        break;
+                }
+            }
         }
     }
 }
