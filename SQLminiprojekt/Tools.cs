@@ -63,7 +63,7 @@ namespace SQLminiprojekt
         }
 
 
-        internal static int Menu(string[] menuOptions, string header = "")
+        internal static int Menu(string[] menuOptions, string header = "" , bool isMainMenu = false )
         {
             Console.Clear();
 
@@ -84,8 +84,8 @@ namespace SQLminiprojekt
             }
             menuOptions = tempArray;
 
-            menuOptions[lastPosition] = "Gå tillbaka";
-
+            menuOptions[lastPosition] = isMainMenu ? "Avsluta" : "Gå tillbaka";
+            
 
             int menuRows = menuOptions.Length;
             int selectedRow = 0;
@@ -191,5 +191,17 @@ namespace SQLminiprojekt
             Console.WriteLine(result);
 
         }
+
+        public static bool GoBack(int input)
+        {
+            if(input == -1)
+            {
+                return true;
+            }
+            
+            return false;
+        }
     }
+
+
 }
