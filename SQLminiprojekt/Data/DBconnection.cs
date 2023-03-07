@@ -105,6 +105,19 @@ namespace SQLminiprojekt.Data
                 return output.ToList();
             }
         }
+        public static List<ReportModel> GetLastReportsPlus(int id)
+        {
+            // Return last 10 reports
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<ReportModel>(
+                    @$"SELECT pers.person_name, proj.project_name, report.hours, report.id  FROM jwe_project_person report 
+                    JOIN jwe_person pers ON report.person_id = pers.id
+                    JOIN jwe_project proj ON report.project_id = proj.id 
+                    WHERE report.id = {id} ", new DynamicParameters());
+                return output.ToList();
+            }
+        }
         public static void NewTimeReport(int projectId, int personId, int hours)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))

@@ -9,6 +9,7 @@ namespace SQLminiprojekt
     {
         static void Main(string[] args)
         {
+            Report.ModifyReport();
 
             Run();
 
