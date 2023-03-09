@@ -61,6 +61,11 @@ namespace SQLminiprojekt
         {
             //User select project to rename (Return DB ID)
             int projectID = GetProjectID();
+            //Stop function if no name is entered
+            if (GoBack(projectID))
+            {
+                return;
+            }
 
             Console.WriteLine("Ange ett nytt projektnamn");
             string newProjectName = FormatName(Console.ReadLine());
