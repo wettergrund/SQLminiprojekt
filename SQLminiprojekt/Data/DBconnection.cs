@@ -95,26 +95,24 @@ namespace SQLminiprojekt.Data
 
 
         //Reports
+            
+        public static List<ReportModel> GetReport(int id = -1, int limit = 10)
+        {
+            //If ID = Return specific report
+            //If no ID = Return last n (limit) reports
 
-        public static List<ReportModel> GetLastReports()
-        {
+            string insert = id >= 0 ? $"WHERE report.id = {id}" : $"ORDER BY id DESC LIMIT {limit}";
+
             // Return last 10 reports
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<ReportModel>($"SELECT * FROM jwe_project_person ORDER BY id DESC LIMIT 10", new DynamicParameters());
-                return output.ToList();
-            }
-        }
-        public static List<ReportModel> GetLastReportsPlus(int id)
-        {
-            // Return last 10 reports
-            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
-            {
+
+
                 var output = cnn.Query<ReportModel>(
                     @$"SELECT pers.person_name, proj.project_name, report.hours, report.id  FROM jwe_project_person report 
                     JOIN jwe_person pers ON report.person_id = pers.id
                     JOIN jwe_project proj ON report.project_id = proj.id 
-                    WHERE report.id = {id} ", new DynamicParameters());
+                    {insert} ", new DynamicParameters());
                 return output.ToList();
             }
         }
@@ -122,7 +120,8 @@ namespace SQLminiprojekt.Data
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<UserModel>($"INSERT INTO jwe_project_person (project_id, person_id, hours) VALUES ({projectId},{personId},{hours})", new DynamicParameters());
+                cnn.Query<UserModel>($"INSERT INTO jwe_project_person (project_id, person_id, hours) VALUES ({projectId},{personId},{hours})", new DynamicParameters());
+
             }
         }
         public static void UpdateReport(string fieldToUpdate, string newData, int id)

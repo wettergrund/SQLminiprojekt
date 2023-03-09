@@ -30,6 +30,7 @@
             // Added to DB
             DBconnection.NewTimeReport(projectDbId, userDbId, hours);
 
+
             Console.Clear();
             GenerateBox("Tidrapport skapad");
             Console.WriteLine($"Användare: {DBconnection.GetUserName(userDbId)}");
@@ -40,37 +41,10 @@
         }
         internal static void ModifyReport()
         {
+            //Let user change existing reports
 
-
-            ////List all reports and let user select the one to update
-            //List<ReportModel> reports = DBconnection.GetLastReports();
-
-            //string[] usersString = new string[reports.Count];
-            //string[] projectString = new string[reports.Count];
-
-            //string[] combinedStrings = new string[reports.Count];
-
-
-            //for (int i = 0; i < reports.Count; i++)
-            //{
-            //    usersString[i] = DBconnection.GetUserName(reports[i].Person_Id);
-            //    projectString[i] = DBconnection.GetProjectName(reports[i].Project_Id);
-
-            //    combinedStrings[i] = $"{usersString[i]} {projectString[i]} {reports[i].hours}";
-            //}
-
-            //int reportIndex = Menu(combinedStrings, "Välj rapport att ändra");
-
-            //if (GoBack(reportIndex)) { 
-            //    return; 
-            //}
-
-
-            ////Store info about selected report.
-
-
-            //ReportModel selectedReport = DBconnection.GetLastReportsPlus(idOfProject).Last();
             ReportModel selectedReport = SelectReport();
+
             if (selectedReport == null) {
                 return;
             }
@@ -81,7 +55,7 @@
                 $"Ändra person ({selectedReport.person_name})",
                 $"Ändra tid ({selectedReport.hours})",
                 $"Ändra projekt({selectedReport.project_name})",
-                $"Ta bort rapport ID"
+                $"Ta bort rapport"
             };
 
             int reportMenuChoice = Menu(reportMenu);
@@ -113,25 +87,19 @@
             }
         }
 
-        internal static ReportModel SelectReport()
+        private static ReportModel SelectReport()
         {
-
-
             //List all reports and let user select the one to update
-            List<ReportModel> reports = DBconnection.GetLastReports();
-
-            string[] usersString = new string[reports.Count];
-            string[] projectString = new string[reports.Count];
+            List<ReportModel> reports = DBconnection.GetReport();
 
             string[] combinedStrings = new string[reports.Count];
 
 
             for (int i = 0; i < reports.Count; i++)
             {
-                usersString[i] = DBconnection.GetUserName(reports[i].Person_Id);
-                projectString[i] = DBconnection.GetProjectName(reports[i].Project_Id);
+               
 
-                combinedStrings[i] = $"{usersString[i]} {projectString[i]} {reports[i].hours}";
+                combinedStrings[i] = $"Användare: {reports[i].person_name} Projekt: {reports[i].project_name} Tid: {reports[i].hours} timmar";
             }
 
             int reportIndex = Menu(combinedStrings, "Välj rapport att ändra");
@@ -146,7 +114,7 @@
             int idOfProject = reports[reportIndex].Id;
 
 
-            return DBconnection.GetLastReportsPlus(idOfProject).Last();
+            return DBconnection.GetReport(idOfProject).Last();
         }
         private static void ChangeReportUser(int projectID)
         {
@@ -189,7 +157,7 @@
             Console.ReadLine();
         }
 
-        internal static void RemoveReport(int idToRemove)
+        private static void RemoveReport(int idToRemove)
         {
             // Let user remove a report
             string[] confirm = { "Nej", "Ja" };

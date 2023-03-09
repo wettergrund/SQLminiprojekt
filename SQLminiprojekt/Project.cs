@@ -8,61 +8,6 @@ namespace SQLminiprojekt
 {
     internal class Project
     {
-
-        internal static void AddProject()
-        {
-            //Add new project
-
-            Console.WriteLine("Ange ett projektnamn");
-            string newProject = FormatName(Console.ReadLine());
-            if(newProject == null)
-            {
-                return;
-            }
-
-            DBconnection.NewProject(newProject);
-
-        }
-
-        internal static void RenameProject()
-        {
-            //Rename project
-            
-            int projectDbID = GetProjectID();
-            Console.WriteLine("Ange ett nytt projektnamn");
-            string newName = FormatName(Console.ReadLine());
-            
-            //Stop function if no name is entered
-            if(newName == null)
-            {
-                return;
-            }
-
-            //Name change in DB
-            DBconnection.RenameProject(newName, projectDbID);
-            Console.WriteLine($"Nytt projektnamn är: {newName}");
-            Console.ReadLine();
-
-        }
-
-        internal static int GetProjectID(string text = "Ange projekt")
-        {
-            // Let user select project and return its DB ID 
-
-            List<ProjectModel> projects = DBconnection.GetAllProjects();
-            string[] allProjects = ConertToArray(projects);
-
-            int selectedProject = Menu(allProjects, text);
-
-            if (GoBack(selectedProject)) { 
-                return -1; 
-            }
-
-            int result = DBconnection.GetProjectID(allProjects[selectedProject]);
-
-            return result;
-        }
-
         internal static void ModifyProject()
         {
             // Options to modify existing project
@@ -93,6 +38,66 @@ namespace SQLminiprojekt
 
             }
         }
+
+        internal static void AddProject()
+        {
+            
+            //Let user enter project name
+            Console.WriteLine("Ange ett projektnamn");
+            string projectName = FormatName(Console.ReadLine());
+
+            //Stop function if no name is entered
+            if (projectName == null)
+            {
+                return;
+            }
+
+            //Update DB
+            DBconnection.NewProject(projectName);
+
+        }
+
+        internal static void RenameProject()
+        {
+            //User select project to rename (Return DB ID)
+            int projectID = GetProjectID();
+
+            Console.WriteLine("Ange ett nytt projektnamn");
+            string newProjectName = FormatName(Console.ReadLine());
+            
+            //Stop function if no name is entered
+            if(newProjectName == null)
+            {
+                return;
+            }
+
+            //Name change in DB
+            DBconnection.RenameProject(newProjectName, projectID);
+            Console.WriteLine($"Nytt projektnamn är: {newProjectName}");
+            Console.ReadLine();
+
+        }
+
+        internal static int GetProjectID(string text = "Ange projekt")
+        {
+            // Let user select project and return its DB ID 
+        
+            List<ProjectModel> listOfProjects = DBconnection.GetAllProjects();
+            string[] projectsArray = ConertToArray(listOfProjects); //List to array for menu
+
+            int selectedProject = Menu(projectsArray, text);
+
+            if (GoBack(selectedProject)) { 
+                return -1; 
+            }
+
+            //Get ID from DB
+            int result = DBconnection.GetProjectID(projectsArray[selectedProject]);
+
+            return result;
+        }
+
+
 
     }
 }

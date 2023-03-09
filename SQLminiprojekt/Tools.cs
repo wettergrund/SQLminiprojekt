@@ -41,13 +41,12 @@
             //A method to validate and return hours
 
             bool isValid;
-            int selectedTime;
             string userInput;
 
             GenerateBox(text);
             userInput = Console.ReadLine();
 
-            isValid = int.TryParse(userInput, out selectedTime);
+            isValid = int.TryParse(userInput, out int selectedTime);
 
             if (!isValid)
             {
