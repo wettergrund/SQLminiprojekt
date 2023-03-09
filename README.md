@@ -10,8 +10,11 @@ This console app written in C# is a simple time reporting tool which store data 
 
 
 
-## 🗝 Key features
+## 🗝 Features
 
+  - General
+    - Navigation trough arrow keys
+    - Error handling for incorrect input
   - Users
     - Add new user
     - Rename existing user
@@ -21,10 +24,11 @@ This console app written in C# is a simple time reporting tool which store data 
   - Report
     - Add new report
     - Change existing report (User, Project and time)
+      - By default last 10 reports are listed, but other limit could be specified through parameter.
     - Remove an incorrect record (this will also happen if tipe is changed to 0)
 
 🏗 Things that could be improved
 
 -   New names is formatted with upper first letter. But if user accidently enter nAme it will be formatted as NAme. 
-    -   If all letters beyond first letter should be lower, it will create problem for people with double name.
--  Error handling if DB is down.
+    -   If all letters beyond first letter should be lower, it will create problem for people with double name, hence I left it helping user with first letter only.
+-  Proper error handling if DB is down.
