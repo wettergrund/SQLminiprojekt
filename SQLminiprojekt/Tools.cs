@@ -48,6 +48,12 @@
 
             isValid = int.TryParse(userInput, out int selectedTime);
 
+            if(selectedTime <= 0) {
+                Console.WriteLine("Du måste ange minst en timme");
+                Console.ReadLine();
+                return -1;
+            }
+
             if (!isValid)
             {
                 Console.WriteLine("Något gick fel, försök igen och ange hela timmar");
